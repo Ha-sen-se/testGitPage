@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>결정 트리 앱</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        #question {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>결정 트리</h1>
+    <div id="question">여기에 질문이 표시됩니다.</div>
+    <div class="button-container">
+        <button onclick="nextStep('yes')">예</button>
+        <button onclick="nextStep('no')">아니오</button>
+    </div>
+
+    <script>
+        const decisionTree = {
+            question: "시작 질문",
+            yes: {
+                question: "예를 선택했을 때 다음 질문"
+            },
+            no: {
+                question: "아니오를 선택했을 때 다음 질문"
+            }
+        };
+
+        let currentNode = decisionTree;
+
+        function nextStep(choice) {
+            if (currentNode[choice]) {
+                currentNode = currentNode[choice];
+                document.getElementById("question").innerText = currentNode.question;
+            } else {
+                alert("결과에 도달했습니다!");
+            }
+        }
+        
+        document.getElementById("question").innerText = decisionTree.question;
+    </script>
+</body>
+</html>
