@@ -35,6 +35,18 @@
     </div>
 
     <script>
+    const decisionTreeTest = {
+        question: "고등학교 졸업(예정)자인가? (고등학교 졸업증명서, 고등학교 성적증명서, 고등학교 재학증명서)",
+        yes: {
+            question: "본인 및 부모가 모두 외국인인가? (. 가족관계증명서[원본], 본인 여권, 부모 여권)",
+            yes: { result: "학부(대학과) 입학 가능" },
+            no: { result: "학부 입학 불가능" }
+        },
+        no: { "result": "어학당 입학 불가능" }
+        }
+
+
+
         const decisionTree = {
             question: "시작 질문",
             yes: {
@@ -45,14 +57,15 @@
             }
         };
 
-        let currentNode = decisionTree;
+        let currentNode = decisionTreeTest;
 
         function nextStep(choice) {
             if (currentNode[choice]) {
                 currentNode = currentNode[choice];
                 document.getElementById("question").innerText = currentNode.question;
             } else {
-                alert("결과에 도달했습니다!");
+                //alert("결과에 도달했습니다!");
+                alert(currentNode.result);
             }
         }
         
