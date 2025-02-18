@@ -34,28 +34,46 @@
         <button onclick="nextStep('no')">아니오</button>
     </div>
 
+    {   question: "",
+        yes: { },
+        no: {  }
+    },
+
     <script>
     const decisionTreeTest = {
         question: "고등학교 졸업(예정)자인가? (고등학교 졸업증명서, 고등학교 성적증명서, 고등학교 재학증명서)",
         yes: {
             question: "본인 및 부모가 모두 외국인인가? (. 가족관계증명서[원본], 본인 여권, 부모 여권)",
-            yes: { result: "학부(대학과) 입학 가능" },
+            yes: { question: "어학능력: TOPIK 3급이 있는가? (TOPIK 성적표)",
+                    yes: {  question: "재정증명: KRW 2,000만원 이상 예치된 잔고증명서 제출이 가능한가? (은행잔고증명서)",
+                            yes: "",
+                            no: { result: "학부 입학 불가능" }
+                        },
+                    no: {   question: "어학능력: TOPIK 3급이 있는가? (TOPIK 성적표)",
+                            yes: {  question: "어학프로그램(어학당)에 입학하고 싶은가?",
+                                yes: {  question: "재정증명: KRW 1,000만원 이상 예치된 잔고증명서 제출이 가능한가? (은행잔고증명서)",
+                                        yes: {  question: "등록금 및 전형료 납부 가능한가?(등록금 1,3000,000 + 전형료 50,000 )",
+                                                yes: {  question: "기숙사를 희망하는가?",
+                                                        yes: {  question: "어떤 기숙사를 희망하는가?",
+                                                                yes: { result: "hello" },
+                                                                no: { result: "hello" }
+                                                             },
+                                                        no: { result: "학부 입학 가가능"  }
+                                                    },
+
+                                                no: { result: "학부 입학 불가능" }
+                                            },
+                                        no: { result: "학부 입학 불가능" }
+                                    },
+                                no: { result: "학부 입학 불가능" }},
+                            no: { result: "학부 입학 불가능" }
+                        }
+             },
             no: { result: "학부 입학 불가능" }
         },
-        no: { "result": "어학당 입학 불가능" }
+        no: { result: "어학당 입학 불가능" }
         }
 
-
-
-        const decisionTree = {
-            question: "시작 질문",
-            yes: {
-                question: "예를 선택했을 때 다음 질문"
-            },
-            no: {
-                question: "아니오를 선택했을 때 다음 질문"
-            }
-        };
 
         let currentNode = decisionTreeTest;
 
