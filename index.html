@@ -34,60 +34,150 @@
         <button onclick="nextStep('no')">아니오</button>
     </div>
 
-    <!-- {   question: "",
-        yes: { },
-        no: {  }
-    }, -->
-
     <script>
     const decisionTreeTest = {
         question: "고등학교 졸업(예정)자인가? (고등학교 졸업증명서, 고등학교 성적증명서, 고등학교 재학증명서)",
         yes: {
             question: "본인 및 부모가 모두 외국인인가? (. 가족관계증명서[원본], 본인 여권, 부모 여권)",
-            yes: { question: "어학능력: TOPIK 3급이 있는가? (TOPIK 성적표)",
-                    yes: {  question: "재정증명: KRW 2,000만원 이상 예치된 잔고증명서 제출이 가능한가? (은행잔고증명서)",
-                            yes: "",
-                            no: { result: "학부 입학 불가능" }
-                        },
-                    no: {   question: "어학능력: TOPIK 3급이 있는가? (TOPIK 성적표)",
-                            yes: {  question: "어학프로그램(어학당)에 입학하고 싶은가?",
-                                yes: {  question: "재정증명: KRW 1,000만원 이상 예치된 잔고증명서 제출이 가능한가? (은행잔고증명서)",
-                                        yes: {  question: "등록금 및 전형료 납부 가능한가?(등록금 1,3000,000 + 전형료 50,000 )",
-                                                yes: {  question: "기숙사를 희망하는가?",
-                                                        yes: {  question: "어떤 기숙사를 희망하는가?",
-                                                                yes: { result: "hello" },
-                                                                no: { result: "hello" }
-                                                             },
-                                                        no: { result: "학부 입학 가가능"  }
-                                                    },
-
-                                                no: { result: "학부 입학 불가능" }
+            yes: {
+                question: "어학능력: TOPIK 3급이 있는가? (TOPIK 성적표)",
+                yes: {
+                    question: "재정증명: KRW 2,000만원 이상 예치된 잔고증명서 제출이 가능한가? (은행잔고증명서)",
+                    yes: {
+                        question: "학부(대학과) 입학을 희망하는가?",
+                        yes: {
+                            question: "전공 선택",
+                            options: [
+                                {
+                                    "option": "IT 계열",
+                                    "question": "세부 전공을 선택하세요.",
+                                    "options": [
+                                        { "option": "시스템 디자인 전공" },
+                                        { "option": "데이터 콘텐츠 전공" }
+                                    ],
+                                    "next": {
+                                        "question": "토픽 급수는 몇 급인가?",
+                                        "options": [
+                                            { "option": "3급" },
+                                            { "option": "4급" },
+                                            { "option": "5급" },
+                                            { "option": "6급" }
+                                        ],
+                                        "next": {
+                                            "question": "등록금을 납부할 수 있는가?",
+                                            "yes": {
+                                                question: "기숙사를 희망하는가?",
+                                                yes: {
+                                                    question: "기숙사 유형을 선택하세요.",
+                                                    options: [
+                                                        { "option": "2인실", "result": "학부 입학 가능, 기숙사 2인실 이용 가능" },
+                                                        { "option": "4인실", "result": "학부 입학 가능, 기숙사 4인실 이용 가능" }
+                                                    ]
+                                                },
+                                                no: { result: "등록금: 2,325,000원, 기숙사 신청 안 함" }
                                             },
-                                        no: { result: "학부 입학 불가능" }
-                                    },
-                                no: { result: "학부 입학 불가능" }},
-                            no: { result: "학부 입학 불가능" }
+                                            no: {
+                                                question: "대출을 신청할 수 있는가?",
+                                                yes: {
+                                                    question: "기숙사 유형을 선택하세요.",
+                                                    options: [
+                                                        { "option": "2인실", "result": "학부 입학 가능, 기숙사 2인실 이용 가능" },
+                                                        { "option": "4인실", "result": "학부 입학 가능, 기숙사 4인실 이용 가능" }
+                                                    ]
+                                                },
+                                                no: { result: "입학 불가능" }
+                                            }
+                                        }
+                                    }
+                                },
+                                {
+                                    "option": "일반 계열",
+                                    "question": "세부 전공을 선택하세요.",
+                                    "options": [
+                                        { "option": "한국어 전공" },
+                                        { "option": "글로벌 경영 전공" },
+                                        { "option": "디지털 디자인 전공" }
+                                    ],
+                                    "next": {
+                                        "question": "토픽 급수는 몇 급인가?",
+                                        "options": [
+                                            { "option": "3급" },
+                                            { "option": "4급" },
+                                            { "option": "5급" },
+                                            { "option": "6급" }
+                                        ],
+                                        "next": {
+                                            "question": "등록금을 납부할 수 있는가?",
+                                            "yes": {
+                                                question: "기숙사를 희망하는가?",
+                                                yes: {
+                                                    question: "기숙사 유형을 선택하세요.",
+                                                    options: [
+                                                        { "option": "2인실", "result": "학부 입학 가능, 기숙사 2인실 이용 가능" },
+                                                        { "option": "4인실", "result": "학부 입학 가능, 기숙사 4인실 이용 가능" }
+                                                    ]
+                                                },
+                                                no: { result: "등록금: 930,000원, 기숙사 신청 안 함" }
+                                            },
+                                            no: {
+                                                question: "대출을 신청할 수 있는가?",
+                                                yes: { result: "대출 신청 후 입학 가능" },
+                                                no: { result: "입학 불가능" }
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
                         }
-             },
+                    },
+                    no: { result: "학부 입학 불가능" }
+                },
+                no: {
+                    question: "어학프로그램(어학당)에 입학하고 싶은가?",
+                    yes: {
+                        question: "재정증명: KRW 1,000만원 이상 예치된 잔고증명서 제출이 가능한가? (은행잔고증명서)",
+                        yes: {
+                            question: "등록금 및 전형료 납부 가능한가? (등록금 1,300,000 + 전형료 50,000)",
+                            yes: {
+                                question: "기숙사를 희망하는가?",
+                                yes: {
+                                    question: "기숙사 유형을 선택하세요.",
+                                    options: [
+                                        { "option": "2인실", "result": "어학당 입학 가능, 기숙사 2인실 이용 가능" },
+                                        { "option": "4인실", "result": "어학당 입학 가능, 기숙사 4인실 이용 가능" }
+                                    ]
+                                },
+                                no: { result: "등록금: 930,000원, 기숙사 신청 안 함" }
+                            },
+                            no: { result: "어학당 입학 불가능" }
+                        },
+                        no: { result: "어학당 입학 불가능" }
+                    },
+                    no: { result: "어학당 입학 불가능" }
+                }
+            },
             no: { result: "학부 입학 불가능" }
         },
         no: { result: "어학당 입학 불가능" }
-        }
+    };
 
+    let currentNode = decisionTreeTest;
 
-        let currentNode = decisionTreeTest;
-
-        function nextStep(choice) {
-            if (currentNode[choice]) {
-                currentNode = currentNode[choice];
-                document.getElementById("question").innerText = currentNode.question;
+    function nextStep(choice) {
+        if (currentNode[choice]) {
+            currentNode = currentNode[choice];
+            if (currentNode.options) {
+                // If the question has options, show them
+                document.getElementById("question").innerHTML = `${currentNode.question} <br> ${currentNode.options.map(opt => `<button onclick="nextStep('${opt.option}')">${opt.option}</button>`).join(" ")}`;
             } else {
-                //alert("결과에 도달했습니다!");
-                alert(currentNode.result);
+                document.getElementById("question").innerText = currentNode.question;
             }
+        } else {
+            alert(currentNode.result);
         }
-        
-        document.getElementById("question").innerText = decisionTreeTest.question;
+    }
+
+    document.getElementById("question").innerText = decisionTreeTest.question;
     </script>
 </body>
 </html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>결정 트리 앱</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        #question {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>결정 트리</h1>
+    <div id="question">여기에 질문이 표시됩니다.</div>
+    <div class="button-container">
+        <button onclick="nextStep('yes')">예</button>
+        <button onclick="nextStep('no')">아니오</button>
+    </div>
+
+    <!-- {   question: "",
+        yes: { },
+        no: {  }
+    }, -->
+
+    <script>
+    const decisionTreeTest = {
+        question: "고등학교 졸업(예정)자인가? (고등학교 졸업증명서, 고등학교 성적증명서, 고등학교 재학증명서)",
+        yes: {
+            question: "본인 및 부모가 모두 외국인인가? (. 가족관계증명서[원본], 본인 여권, 부모 여권)",
+            yes: { question: "어학능력: TOPIK 3급이 있는가? (TOPIK 성적표)",
+                    yes: {  question: "재정증명: KRW 2,000만원 이상 예치된 잔고증명서 제출이 가능한가? (은행잔고증명서)",
+                            yes: "",
+                            no: { result: "학부 입학 불가능" }
+                        },
+                    no: {   question: "어학능력: TOPIK 3급이 있는가? (TOPIK 성적표)",
+                            yes: {  question: "어학프로그램(어학당)에 입학하고 싶은가?",
+                                yes: {  question: "재정증명: KRW 1,000만원 이상 예치된 잔고증명서 제출이 가능한가? (은행잔고증명서)",
+                                        yes: {  question: "등록금 및 전형료 납부 가능한가?(등록금 1,3000,000 + 전형료 50,000 )",
+                                                yes: {  question: "기숙사를 희망하는가?",
+                                                        yes: {  question: "어떤 기숙사를 희망하는가?",
+                                                                yes: { result: "hello" },
+                                                                no: { result: "hello" }
+                                                             },
+                                                        no: { result: "학부 입학 가가능"  }
+                                                    },
+
+                                                no: { result: "학부 입학 불가능" }
+                                            },
+                                        no: { result: "학부 입학 불가능" }
+                                    },
+                                no: { result: "학부 입학 불가능" }},
+                            no: { result: "학부 입학 불가능" }
+                        }
+             },
+            no: { result: "학부 입학 불가능" }
+        },
+        no: { result: "어학당 입학 불가능" }
+        }
+
+
+        let currentNode = decisionTreeTest;
+
+        function nextStep(choice) {
+            if (currentNode[choice]) {
+                currentNode = currentNode[choice];
+                document.getElementById("question").innerText = currentNode.question;
+            } else {
+                //alert("결과에 도달했습니다!");
+                alert(currentNode.result);
+            }
+        }
+        
+        document.getElementById("question").innerText = decisionTreeTest.question;
+    </script>
+</body>
+</html>
