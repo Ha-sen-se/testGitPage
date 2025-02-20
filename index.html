@@ -169,11 +169,15 @@
             if (currentNode.options) {
                 // If the question has options, show them
                 document.getElementById("question").innerHTML = `${currentNode.question} <br> ${currentNode.options.map(opt => `<button onclick="nextStep('${opt.option}')">${opt.option}</button>`).join(" ")}`;
-            } else {
+            } else if (currentNode.result) {
+                // If it's a result, show it
+                alert(currentNode.result);
+            } else if (currentNode.question) {
+                // If it's just a new question, update the text
                 document.getElementById("question").innerText = currentNode.question;
             }
         } else {
-            alert(currentNode.result);
+            alert("잘못된 선택입니다.");
         }
     }
 
