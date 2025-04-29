@@ -5,8 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>결정 트리 앱</title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
   <style>
-    /* 기본 스타일 */
     body {
       font-family: 'Noto Sans KR', sans-serif;
       background-color: #f7f9fc;
@@ -14,7 +15,10 @@
       padding: 0;
       color: #333;
     }
-
+    .navbar .container{
+      justify-content: center;
+    }
+  
     .navbar {
       background-color: #333;
       border-radius: 16px;
@@ -22,13 +26,13 @@
       padding: 15px;
       text-align: center;
     }
-
+  
     .navbar select {
-      padding: 8px;
+      margin-left:10px;
       font-size: 16px;
       cursor: pointer;
     }
-
+  
     #app {
       max-width: 800px;
       margin: 40px auto;
@@ -37,28 +41,45 @@
       border-radius: 16px;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
     }
-
+  
     #question {
       text-align: center;
       font-size: 25px;
       font-weight: 700;
       margin-bottom: 40px;
     }
-
+  
     #question h2 {
       color: #333;
+      font-size: 28px;
+      font-weight: bold;
       line-height: 1.4;
       margin-bottom: 30px;
     }
-
+  
     #button-container {
       display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
+      flex-direction: column;
+      align-items: center;
       gap: 20px;
     }
-
-    .option-button, .yes-no-button {
+  
+    .choice-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 10px;
+    }
+  
+    .nav-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 50px;
+    }
+  
+    .option-button,
+    .yes-no-button
+    {
       background-color: #6e6e6e;
       color: white;
       border: none;
@@ -71,74 +92,72 @@
       min-width: 180px;
       box-shadow: 0 4px 8px rgba(46, 46, 46, 0.2);
     }
-
-    .option-button:hover, .yes-no-button:hover {
-      background-color: #222222;
+  
+    .option-button:hover,
+    .yes-no-button:hover
+    {
+      background-color: #222;
       transform: translateY(-3px);
     }
 
-    .yes-no-button {
-      background-color: #6e6e6e;
+    .nav-button {
+      background-color: transparent; /* 배경을 투명하게 설정 */
+      margin-top: 50px;;
+      color: #333; /* 아이콘 색상 */
+      border: none; /* 테두리 제거 */
+      padding: 0; /* 아이콘만 보이도록 패딩 제거 */
+      font-size: 36px; /* 아이콘 크기 설정 */
+      cursor: pointer;
+      transition: transform 0.2s ease-in-out;
     }
 
-    .yes-no-button:hover {
-      background-color: #222222;
+    .nav-button:hover {
+      transform: translateY(-3px); /* 버튼에 hover 효과 추가 */
     }
-
+  
     table {
       width: 100%;
       margin-top: 40px;
       border-collapse: collapse;
       background-color: #f9f9f9;
     }
-
+  
     th, td {
       padding: 14px;
       text-align: center;
       font-size: 16px;
       border: 1px solid #ddd;
     }
-
+  
     th {
       background-color: #f1f1f1;
       font-weight: bold;
     }
-
+  
     tr:nth-child(even) {
       background-color: #f5f5f5;
     }
-
+  
     tr:hover {
       background-color: #e9ecef;
-    }
-
-    /* 버튼 컨테이너 스타일 */
-    .button-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 15px;
-    }
-
-    /* 기본 스타일링 */
-    h2 {
-      font-size: 28px;
-      font-weight: bold;
     }
   </style>
 
 </head>
 <body onload="renderQuestion()">
   <div id="app">
-    <div class="navbar" style="margin-bottom: 50px;">
-      <label for="schoolSelect">학교 선택: </label>
-      <select id="schoolSelect" onchange="changeSchool()">
-        <option value="default">학교를 선택하세요</option>
-        <option value="gju">군장대학교</option>
-        <option value="dgu">대경대학교</option>
-        <option value="hwu">호원대학교</option>
-      </select>
-    </div>
+    <!--<div class="navbar" style="margin-bottom: 50px;">-->
+      <div class="navbar navbar-dark bg-dark rounded-3 mb-5">
+        <div class="container">
+          <label for="schoolSelect" class="text-white me-2">학교 선택: </label>
+          <select id="schoolSelect" class="form-select w-auto" onchange="changeSchool()">
+            <option value="default">학교를 선택하세요</option>
+            <option value="gju">군장대학교</option>
+            <option value="dgu">대경대학교</option>
+            <option value="hwu">호원대학교</option>
+          </select>
+        </div>
+      </div>
 
     <div id="question">
       <h2>처음 질문이 여기 들어갑니다</h2>
@@ -163,7 +182,15 @@
               {
                 option: "스마트자동차기계",
                 next: {
-                  question: "등록금을 납부할 수 있는가? \n(토픽 3급- 1,925,000원, 4급- 1,650,000원, 5급 이상- 1,375,000원)",
+                  question: "등록금을 납부할 수 있는가?",
+                  table: {
+                    headers: ["TOPIK 급수", "납부 금액"],
+                    rows: [
+                      ["3급", "1,925,000원"],
+                      ["4급", "1,650,000원"],
+                      ["5급 이상", "1,375,000원"]
+                    ]
+                  },     
                   yes: {
                     question: "기숙사를 희망하는가?",
                     yes: {                     
@@ -185,7 +212,15 @@
               {
                 option: "특수용접과",
                 next: {
-                  question: "등록금을 납부할 수 있는가? \n(토픽 3급- 1,925,000원, 4급- 1,650,000원, 5급 이상- 1,375,000원)",
+                  question: "등록금을 납부할 수 있는가?",
+                  table: {
+                    headers: ["TOPIK 급수", "납부 금액"],
+                    rows: [
+                      ["3급", "1,925,000원"],
+                      ["4급", "1,650,000원"],
+                      ["5급 이상", "1,375,000원"]
+                    ]
+                  },  
                   yes: {
                     question: "기숙사를 희망하는가?",
                     yes: {                     
@@ -207,7 +242,15 @@
               {
                 option: "조선전공",
                 next: {
-                  question: "등록금을 납부할 수 있는가? \n(토픽 3급- 1,925,000원, 4급- 1,650,000원, 5급 이상- 1,375,000원)",
+                  question: "등록금을 납부할 수 있는가?",
+                  table: {
+                    headers: ["TOPIK 급수", "납부 금액"],
+                    rows: [
+                      ["3급", "1,925,000원"],
+                      ["4급", "1,650,000원"],
+                      ["5급 이상", "1,375,000원"]
+                    ]
+                  },  
                   yes: {
                     question: "기숙사를 희망하는가?",
                     yes: {                     
@@ -239,10 +282,23 @@
             yes: {
               question: "KRW 800만원 이상 예치된 잔고증명서 제출이 가능한가?",
               yes: {
-                question: "등록금 및 지원료 납부 가능한가? \n(등록금 4,400,000원 + 지원료 100,000원)",
+                question: "등록금 및 지원료 납부 가능한가?",
+                table: {
+                    headers: ["등록금", "지원료"],
+                    rows: [
+                      ["4,400,000원", "100,000원"]
+                    ]
+                }, 
                 yes: {
                   question: "기숙사를 희망하는가?",
-                  yes: { result: "어학당 입학 및 기숙사 사용 가능 \n(2인실 6개월 900,000원 + 어학당 3급 수료 후 학부 입학 가능)" },
+                  yes: { 
+                    result: {
+                    message:"어학당 입학 및 기숙사 사용 가능(어학당 3급 수료 후 학부 입학 가능)",
+                    table: [
+                              ["2인실(6개월)", "900,000원"]
+                            ], 
+                    }
+                  },
                   no: { result: "어학당 입학 가능" }
                 },
                 no: { result: "어학당 입학 불가능" }
@@ -278,12 +334,30 @@
                     question: "기숙사를 희망하는가?",
                     yes: {
                       result: {
-                        message: "학부 입학 및 기숙사 사용 가능(2인실/4인실 가격미정\n학기당 300,000~400,000원 예상)"
+                        message: "학부 입학 및 기숙사 사용 가능능",
+                        table: [
+                              ["2인실/4인실", "가격미정(학기당 300,000~400,000원 예상)"]
+                            ]
                       }
                     },
                     no: { result: "학부 입학 가능" }
                   },
-                  no: { result: "학부 입학 불가능" }
+                  no: {
+                    question: "중국 기업의 대출을 받을 예정인가?",
+                    yes: {
+                      question: "기숙사를 희망하는가?",
+                      yes: {
+                        result: {
+                          message: "학부 입학 및 기숙사 사용 가능",
+                          table: [
+                              ["2인실/4인실", "가격미정(학기당 300,000~400,000원 예상)"]
+                            ]
+                        }
+                      },
+                      no: { result: "학부 입학 가능" }
+                    },
+                    no: { result: "학부 입학 불가능" }
+                  }
                 }
               },
               {
@@ -294,28 +368,39 @@
                     question: "기숙사를 희망하는가?",
                     yes: {
                       result: {
-                        message: "학부 입학 및 기숙사 사용 가능(2인실/4인실 가격미정\n학기당 300,000~400,000원 예상)"
+                        message: "학부 입학 및 기숙사 사용 가능",
+                        table: [
+                              ["2인실/4인실", "가격미정(학기당 300,000~400,000원 예상)"]
+                            ]
                       }
                     },
                     no: { result: "학부 입학 가능" }
                   },
-                  no: { result: "학부 입학 불가능" }
+                  no: {
+                    question: "중국 기업의 대출을 받을 예정인가?",
+                    yes: {
+                      question: "기숙사를 희망하는가?",
+                      yes: {
+                        result: {
+                          message: "학부 입학 및 기숙사 사용 가능",
+                          table: [
+                              ["2인실/4인실", "가격미정(학기당 300,000~400,000원 예상)"]
+                            ]
+                        }
+                      },
+                      no: { result: "학부 입학 가능" }
+                    },
+                    no: { result: "학부 입학 불가능" }
+                  }
+                }
+              },
+              {
+                option: "아니오",
+                next: {
+                  result: "학부 입학 불가능"
                 }
               }
             ]
-          },
-          no: {
-            question: "중국 기업의 대출을 받을 예정인가?",
-            yes: {
-              question: "기숙사를 희망하는가?",
-              yes: {
-                result: {
-                  message: "학부 입학 및 기숙사 사용 가능(2인실/4인실 가격미정\n학기당 300,000~400,000원 예상)"
-                }
-              },
-              no: { result: "학부 입학 가능" }
-            },
-            no: { result: "학부 입학 불가능" }
           }
         },
         no: {
@@ -328,7 +413,10 @@
                 question: "기숙사를 희망하는가?",
                 yes: {
                   result: {
-                    message: "어학당 입학 및 입학 및 기숙사 사용 가능(2인실/4인실 무료)\n어학당 3급 수료 후 학부 입학 가능)"
+                    message: "어학당 입학 및 입학 및 기숙사 사용 가능(어학당 3급 수료 후 학부 입학 가능)",
+                    table: [
+                              ["2인실/4인실", "무료"]
+                            ]
                   }
                 },
                 no: { result: "어학당 입학 가능" }
@@ -360,23 +448,59 @@
               {
                 option: "경영학과",
                 next: {
-                  question: "등록금을 납부할 수 있는가? (토픽 3급- 1,980,000원, 4급- 1,320,000원, 5급- 990,000원, 6급- 등록금 무료 + 지원료 100,000원 + 보험료 100,000원)",
+                  question: "등록금을 납부할 수 있는가?",
+                  table: {
+                    headers: ["TOPIK 급수", "납부 금액"],
+                    rows: [
+                      ["3급", "1,980,000원 + 지원료(100,000원) + 보험료(100,000원)" ],
+                      ["4급", "1,320,000원 + 지원료(100,000원) + 보험료(100,000원)"],
+                      ["5급", "990,000원 + 지원료(100,000원) + 보험료(100,000원)"],
+                      ["6급", "등록금 무료 + 지원료(100,000원) + 보험료(100,000원)"]
+                    ]
+                  },  
                   yes: {
                     question: "기숙사를 희망하는가?",
                     yes: {
                       result: {
-                        message: "학부 입학 및 기숙사 사용 가능(4인실- 495,000원+ 보증금 50,000원)"
+                        message: "학부 입학 및 기숙사 사용 가능",
+                        table: [
+                              ["4인실", "495,000원 + 보증금 50,000원"]
+                            ]
                       }
                     },
                     no: { result: "학부 입학 가능" }
                   },
-                  no: { result: "학부 입학 불가능" }
+                  no: {
+                    question: "중국 기업의 대출을 받을 예정인가?",
+                    yes: {
+                      question: "기숙사를 희망하는가?",
+                      yes: {
+                        result: {
+                          message: "학부 입학 및 기숙사 사용 가능",
+                        table: [
+                              ["4인실", "495,000원 + 보증금 50,000원"]
+                            ]
+                        }
+                      },
+                      no: { result: "학부 입학 가능" }
+                    },
+                    no: { result: "학부 입학 불가능" }
+                  }
                 }
               },
               {
                 option: "자동차기계공학과",
                 next: {
-                  question: "등록금을 납부할 수 있는가? (토픽 3급- 2,880,000원, 4급- 1,920,000원, 5급- 1,440,000원, 6급- 등록금 무료 + 지원료 100,000원 + 보험료 100,000원)",
+                  question: "등록금을 납부할 수 있는가?",
+                  table: {
+                    headers: ["TOPIK 급수", "납부 금액"],
+                    rows: [
+                      ["3급", "2,880,000원 + 지원료(100,000원) + 보험료(100,000원)" ],
+                      ["4급", "1,920,000원 + 지원료(100,000원) + 보험료(100,000원)"],
+                      ["5급", "1,440,000원 + 지원료(100,000원) + 보험료(100,000원)"],
+                      ["6급", "등록금 무료 + 지원료(100,000원) + 보험료(100,000원)"]
+                    ]
+                  }, 
                   yes: {
                     question: "기숙사를 희망하는가?",
                     yes: {
@@ -386,39 +510,74 @@
                     },
                     no: { result: "학부 입학 가능" }
                   },
-                  no: { result: "학부 입학 불가능" }
+                  no: {
+                    question: "중국 기업의 대출을 받을 예정인가?",
+                    yes: {
+                      question: "기숙사를 희망하는가?",
+                      yes: {
+                        result: {
+                          message: "학부 입학 및 기숙사 사용 가능",
+                          table: [
+                                ["4인실", "495,000원 + 보증금 50,000원"]
+                              ]
+                        }
+                      },
+                      no: { result: "학부 입학 가능" }
+                    },
+                    no: { result: "학부 입학 불가능" }
+                  }
                 }
               },
               {
                 option: "치위생학과",
                 next: {
-                  question: "등록금을 납부할 수 있는가? (토픽 3급- 2,520,000원, 4급- 1,680,000원, 5급- 1,260,000원, 6급- 등록금 무료 + 지원료 100,000원 + 보험료 100,000원)",
+                  question: "등록금을 납부할 수 있는가?",
+                  table: {
+                    headers: ["TOPIK 급수", "납부 금액"],
+                    rows: [
+                      ["3급", "2,520,000원 + 지원료(100,000원) + 보험료(100,000원)" ],
+                      ["4급", "1,680,000원 + 지원료(100,000원) + 보험료(100,000원)"],
+                      ["5급", "1,260,000원 + 지원료(100,000원) + 보험료(100,000원)"],
+                      ["6급", "등록금 무료 + 지원료(100,000원) + 보험료(100,000원)"]
+                    ]
+                  }, 
                   yes: {
                     question: "기숙사를 희망하는가?",
                     yes: {
                       result: {
-                        message: "학부 입학 및 기숙사 사용 가능(4인실- 495,000원+ 보증금 50,000원)"
+                        message: "학부 입학 및 기숙사 사용 가능",
+                        table: [
+                              ["4인실", "495,000원 + 보증금 50,000원"]
+                            ]
                       }
                     },
                     no: { result: "학부 입학 가능" }
                   },
-                  no: { result: "학부 입학 불가능" }
+                  no: {
+                    question: "중국 기업의 대출을 받을 예정인가?",
+                    yes: {
+                      question: "기숙사를 희망하는가?",
+                      yes: {
+                        result: {
+                          message: "학부 입학 및 기숙사 사용 가능",
+                        table: [
+                              ["4인실", "495,000원 + 보증금 50,000원"]
+                            ]
+                        }
+                      },
+                      no: { result: "학부 입학 가능" }
+                    },
+                    no: { result: "학부 입학 불가능" }
+                  }
+                }
+              },
+              {
+                option: "아니오",
+                next: {
+                  result: "학부 입학 불가능"
                 }
               }
             ]
-          },
-          no: {
-            question: "중국 기업의 대출을 받을 예정인가?",
-            yes: {
-              question: "기숙사를 희망하는가?",
-              yes: {
-                result: {
-                  message: "학부 입학 및 기숙사 사용 가능(4인실- 495,000원+ 보증금 50,000원)"
-                }
-              },
-              no: { result: "학부 입학 가능" }
-            },
-            no: { result: "학부 입학 불가능" }
           }
         },
         no: {
@@ -426,12 +585,22 @@
           yes: {
             question: "KRW 800만원 이상 예치된 잔고증명서 제출이 가능한가?",
             yes: {
-              question: "등록금 및 지원료 납부 가능한가? (등록금 4,800,000원(4학기) + 지원료 100,000원)",
+              question: "등록금 및 지원료 납부 가능한가?(등록금 4,800,000원(4학기) + 지원료 100,000원)",
+              table: {
+                headers: ["등록금", "지원료"],
+                rows: [
+                        ["4,800,000원(4학기)", "100,000원" ]
+                    ]
+                  }, 
+              
               yes: {
                 question: "기숙사를 희망하는가?",
                 yes: {
                   result: {
-                    message: "어학당 입학 및 입학 및 기숙사 사용 가능(4인실- 400,000원 + 보증금 50,000원 + 어학당 3급 수료 후 학부 입학 가능)"
+                    message: "어학당 입학 및 입학 및 기숙사 사용 가능(어학당 3급 수료 후 학부 입학 가능)",
+                        table: [
+                              ["4인실", "400,000원 + 보증금 50,000원"]
+                            ]
                   }
                 },
                 no: { result: "어학당 입학 가능" }
@@ -450,194 +619,180 @@
 
 
 
-    const decisionTreeTest2 = {
-        question: "고등학교 졸업(예정)자인가?",
-        yes: {
-        question: "본인 및 부모가 모두 외국인인가?",
-        yes: {
-            question: "TOPIK 3급이 있는가?",
-            yes: {
-            question: "KRW 2,000만원 이상 예치된 잔고증명서 제출이 가능한가?",
-            yes: {
-                question: "학부(대학교) 입학을 희망하는가?",
-                yes: {
-                question: "전공을 선택하세요.",
-                options: [
-                    {
-                    option: "IT 계열 전공(시스템 디자인, 데이터 콘텐츠)",
-                    next: {
-                        question: "토픽 급수를 선택하세요.",
-                        options: [
-                        { option: "3급", next: { question: "등록금을 납부할 수 있는가? (500만원)", yes: { question: "기숙사를 희망하는가?", yes: { result: "학부 입학 가능, 기숙사 2인실 또는 4인실 이용 가능" }, no: { question: "중국 기업 대출을 받을 예정인가?", yes: { question: "기숙사를 희망하는가?", yes: { result: "학부 입학 가능, 기숙사 2인실 또는 4인실 이용 가능" }, no: { result: "학부 입학 불가능" } }, no: { result: "학부 입학 불가능" } } }, no: { result: "학부 입학 불가능" } } },
-                        { option: "4급", next: { question: "등록금을 납부할 수 있는가? (400만원)", yes: { question: "기숙사를 희망하는가?", yes: { result: "학부 입학 가능, 기숙사 2인실 또는 4인실 이용 가능" }, no: { question: "중국 기업 대출을 받을 예정인가?", yes: { question: "기숙사를 희망하는가?", yes: { result: "학부 입학 가능, 기숙사 2인실 또는 4인실 이용 가능" }, no: { result: "학부 입학 불가능" } }, no: { result: "학부 입학 불가능" } } }, no: { result: "학부 입학 불가능" } } },
-                        { option: "5급", next: { question: "등록금을 납부할 수 있는가? (300만원)", yes: { question: "기숙사를 희망하는가?", yes: { result: "학부 입학 가능, 기숙사 2인실 또는 4인실 이용 가능" }, no: { question: "중국 기업 대출을 받을 예정인가?", yes: { question: "기숙사를 희망하는가?", yes: { result: "학부 입학 가능, 기숙사 2인실 또는 4인실 이용 가능" }, no: { result: "학부 입학 불가능" } }, no: { result: "학부 입학 불가능" } } }, no: { result: "학부 입학 불가능" } } },
-                        { option: "6급", next: { result: "등록금 무료, 학부 입학 가능" } }
-                        ]
-                    }
-                    },
-                    {
-                    option: "일반 계열 전공(한국어, 글로벌 경영, 디지털 디자인)",
-                    next: {
-                        question: "토픽 급수를 선택하세요.",
-                        options: [
-                        { option: "3급", next: { question: "등록금을 납부할 수 있는가? (500만원)", yes: { question: "기숙사를 희망하는가?", yes: { result: "학부 입학 가능, 기숙사 2인실 또는 4인실 이용 가능" }, no: { question: "중국 기업 대출을 받을 예정인가?", yes: { question: "기숙사를 희망하는가?", yes: { result: "학부 입학 가능, 기숙사 2인실 또는 4인실 이용 가능" }, no: { result: "학부 입학 불가능" } }, no: { result: "학부 입학 불가능" } } }, no: { result: "학부 입학 불가능" } } },
-                        { option: "4급", next: { question: "등록금을 납부할 수 있는가? (400만원)", yes: { question: "기숙사를 희망하는가?", yes: { result: "학부 입학 가능, 기숙사 2인실 또는 4인실 이용 가능" }, no: { question: "중국 기업 대출을 받을 예정인가?", yes: { question: "기숙사를 희망하는가?", yes: { result: "학부 입학 가능, 기숙사 2인실 또는 4인실 이용 가능" }, no: { result: "학부 입학 불가능" } }, no: { result: "학부 입학 불가능" } } }, no: { result: "학부 입학 불가능" } } },
-                        { option: "5급", next: { question: "등록금을 납부할 수 있는가? (300만원)", yes: { question: "기숙사를 희망하는가?", yes: { result: "학부 입학 가능, 기숙사 2인실 또는 4인실 이용 가능" }, no: { question: "중국 기업 대출을 받을 예정인가?", yes: { question: "기숙사를 희망하는가?", yes: { result: "학부 입학 가능, 기숙사 2인실 또는 4인실 이용 가능" }, no: { result: "학부 입학 불가능" } }, no: { result: "학부 입학 불가능" } } }, no: { result: "학부 입학 불가능" } } },
-                        { option: "6급", next: { result: "등록금 무료, 학부 입학 가능" } }
-                        ]
-                    }
-                    }
-                ]
-                },
-                no: {
-                question: "어학프로그램(어학당)에 입학하고 싶은가?",
-                yes: {
-                    question: "은행잔고증명서 제출이 가능한가?",
-                    yes: {
-                    question: "등록금 및 전형료 납부가 가능한가?",
-                    yes: {
-                        question: "기숙사를 희망하는가?",
-                        yes: { result: "어학당 입학 가능, 기숙사 2인실 또는 4인실 이용 가능, 어학당 3급 수료 후 학부 입학 가능" },
-                        no: { result: "어학당 입학 가능" }
-                    },
-                    no: { result: "어학당 입학 불가능" }
-                    },
-                    no: { result: "어학당 입학 불가능" }
-                },
-                no: { result: "어학당 입학 불가능" }
-                }
-            },
-            no: { result: "학부 입학 불가능" }
-            },
-            no: { result: "어학당 입학 불가능" }
-        },
-        no: { result: "어학당 입학 불가능" }
-        },
-        no: { result: "어학당 입학 불가능" }
-};
-
-
   let currentNode = {};
+  let history = [];
+  let rootNode = {};
 
   function renderQuestion() {
     const questionDiv = document.getElementById('question');
     const buttonContainer = document.getElementById('button-container');
 
-    // 결과가 있는 경우
-    if (currentNode.result) {
-      const result = currentNode.result;
-      buttonContainer.innerHTML = '';
-
-      if (typeof result === 'object') {
-        // result가 객체인 경우 (message + table)
-        questionDiv.innerHTML = `<h2>${result.message}</h2>`;
-        
-        if (result.table && Array.isArray(result.table)) {
-          let tableHtml = "<table>";
-          tableHtml += "<tr>";
-
-          // 첫 번째 행을 헤더로
-          result.table[0].forEach(header => {  
-            tableHtml += `<th>${header}</th>`;
-          });
-          tableHtml += "</tr>";
-
-          // 나머지 행들
-          for (let i = 1; i < result.table.length; i++) {
-            tableHtml += "<tr>";
-            result.table[i].forEach(cell => {
-              tableHtml += `<td>${cell}</td>`;
-            });
-            tableHtml += "</tr>";
-          }
-
-          tableHtml += "</table>";
-          questionDiv.innerHTML += tableHtml;
-        }
-      } else {
-        questionDiv.innerText = result;
-      }
-      return;
-    }
-
-    // 질문 출력
-    questionDiv.innerText = currentNode.question || '';
-
-    // 버튼 초기화
+    questionDiv.innerHTML = '';
     buttonContainer.innerHTML = '';
 
-    // 선택지가 있는 경우
-    if (currentNode.options) {
-      currentNode.options.forEach(opt => {
-        const btn = document.createElement('button');
-        btn.classList.add('option-button');
-        btn.innerText = opt.option;
-        btn.onclick = () => {
-          if (opt.next) {
-            currentNode = opt.next;
-            renderQuestion();
-          } else {
-            alert(opt.result || "선택 완료");
-            location.reload();
-          }
-        };
-        buttonContainer.appendChild(btn);
-      });
+    if (currentNode.result) {
+      renderResult(currentNode.result);
+      renderNavigationButtons();
       return;
     }
 
-    // 예/아니오 버튼
-    const yesBtn = document.createElement('button');
-    yesBtn.classList.add('yes-no-button');
-    yesBtn.innerText = '예';
-    yesBtn.onclick = () => {
-      if (currentNode.yes) {
-        currentNode = currentNode.yes;
+    if (currentNode.question) {
+      questionDiv.innerHTML = `<h2>${currentNode.question}</h2>`;
+    }
+
+    if (currentNode.table) {
+      questionDiv.innerHTML += generateTable(currentNode.table);
+    }
+
+    const choiceDiv = document.createElement('div');  // ✅ 새로 추가됨
+  choiceDiv.className = 'choice-buttons';           // ✅ 클래스 지정
+
+  // 🔧 선택지 버튼 출력
+  if (currentNode.options) {
+    currentNode.options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'option-button';
+      btn.innerText = opt.option;
+      btn.onclick = () => {
+        if (opt.next) {
+          history.push(currentNode);
+          currentNode = opt.next;
+          renderQuestion();
+        } else {
+          alert(opt.result || "선택 완료");
+          location.reload();
+        }
+      };
+      choiceDiv.appendChild(btn);  // ✅ 선택지 div에 버튼 추가
+    });
+
+    buttonContainer.appendChild(choiceDiv);  // ✅ 버튼 컨테이너에 추가
+    renderNavigationButtons();               // ✅ 네비게이션 버튼 따로 호출
+    return;
+  }
+
+  // 🔧 예/아니오 버튼
+  ['예', '아니오'].forEach(choice => {
+    const btn = document.createElement('button');
+    btn.className = 'yes-no-button';
+    btn.innerText = choice;
+    btn.onclick = () => {
+      const next = choice === '예' ? currentNode.yes : currentNode.no;
+      if (next) {
+        history.push(currentNode);
+        currentNode = next;
         renderQuestion();
       } else {
         alert('잘못된 선택입니다.');
       }
     };
-    buttonContainer.appendChild(yesBtn);
+    choiceDiv.appendChild(btn);  // ✅ 마찬가지로 여기도 choiceDiv에 버튼 추가
+  });
 
-    const noBtn = document.createElement('button');
-    noBtn.classList.add('yes-no-button');
-    noBtn.innerText = '아니오';
-    noBtn.onclick = () => {
-      if (currentNode.no) {
-        currentNode = currentNode.no;
+  buttonContainer.appendChild(choiceDiv);  // ✅ yes/no 버튼 묶음도 추가
+  renderNavigationButtons();               // ✅ 네비게이션 버튼 따로 호출
+  }
+
+  function renderResult(result) {
+    const questionDiv = document.getElementById('question');
+    if (typeof result === 'object' && result.message) {
+      questionDiv.innerHTML = `<h2>${result.message}</h2>`;
+      if (result.table) {
+        questionDiv.innerHTML += generateTable({ headers: result.table[0], rows: result.table.slice(1) });
+      }
+    } else {
+      questionDiv.innerText = result;
+    }
+  }
+
+  function generateTable(table) {
+    let html = "<table>";
+    if (table.headers) {
+      html += "<thead><tr>";
+      table.headers.forEach(header => {
+        html += `<th>${header}</th>`;
+      });
+      html += "</tr></thead>";
+    }
+    if (table.rows) {
+      html += "<tbody>";
+      table.rows.forEach(row => {
+        html += "<tr>";
+        row.forEach(cell => {
+          html += `<td>${cell}</td>`;
+        });
+        html += "</tr>";
+      });
+      html += "</tbody>";
+    }
+    html += "</table>";
+    return html;
+  }
+
+  function createButton(text, className, onClick) {
+    const btn = document.createElement('button');
+    btn.className = className;
+    btn.innerText = text;
+    btn.onclick = onClick;
+    return btn;
+  }
+
+  function renderNavigationButtons() {
+    const buttonContainer = document.getElementById('button-container');
+
+    const navDiv = document.createElement('div');
+    navDiv.className = 'nav-buttons';
+
+    // 처음으로 버튼 (Bootstrap 아이콘 사용)
+    const homeBtn = createButton('', 'nav-button', () => {
+      currentNode = rootNode;
+      history = [];
+      renderQuestion();
+    });
+    homeBtn.innerHTML = '<i class="bi bi-house-door"></i>'; // Bootstrap house 아이콘
+    homeBtn.style.background = 'transparent'; // 배경을 투명하게 설정
+    homeBtn.style.border = 'none'; // 테두리 없애기
+    homeBtn.style.padding = '0'; // 아이콘만 보이게 패딩 없애기
+    homeBtn.style.fontSize = '24px'; // 아이콘 크기 설정 (필요시 조정)
+    navDiv.appendChild(homeBtn);
+
+    // 이전으로 버튼 (Bootstrap 아이콘 사용)
+    if (history.length > 0) {
+      const backBtn = createButton('', 'nav-button', () => {
+        currentNode = history.pop();
         renderQuestion();
-      } else {
-        alert('잘못된 선택입니다.');
-      }
-    };
-    buttonContainer.appendChild(noBtn);
+      });
+      backBtn.innerHTML = '<i class="bi bi-arrow-left-circle"></i>'; // Bootstrap 왼쪽 화살표 아이콘
+      backBtn.style.background = 'transparent'; // 배경을 투명하게 설정
+      backBtn.style.border = 'none'; // 테두리 없애기
+      backBtn.style.padding = '0'; // 아이콘만 보이게 패딩 없애기
+      backBtn.style.fontSize = '24px'; // 아이콘 크기 설정 (필요시 조정)
+      navDiv.appendChild(backBtn);
+    }
+
+    buttonContainer.appendChild(navDiv);
   }
 
-  function changeSchool(){
-    const schoolSelect = document.getElementById("schoolSelect");
-      const schoolValue = schoolSelect.value;
-     
-      switch (schoolValue) {
-        case "gju":
-          currentNode = decisionTreeGJU;
-          renderQuestion();
-          break;
-        case "dgu":
-          currentNode = decisionTreeDGU;
-          renderQuestion();
-          break; 
-        case "hwu":
-          currentNode = decisionTreeHWU;
-          renderQuestion();
-          break;
-        default:
-          return;
-      }
+  function changeSchool() {
+    const schoolValue = document.getElementById("schoolSelect").value;
+
+    switch (schoolValue) {
+      case "gju":
+        rootNode = decisionTreeGJU;
+        break;
+      case "dgu":
+        rootNode = decisionTreeDGU;
+        break;
+      case "hwu":
+        rootNode = decisionTreeHWU;
+        break;
+      default:
+        return;
+    }
+    currentNode = rootNode;
+    history = [];
+    renderQuestion();
   }
-
-
-
   
 </script>
 </html>
